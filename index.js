@@ -73,26 +73,53 @@ function insertHTMLTags(buffer) {
 
   // Wrap all of the content within <article> tags
   // console.log(buffer);
-  let openingTag = Buffer.from('<article>');
-  // console.log(openingTag);
-  let closingTag = Buffer.from('</article>'); 
-  // console.log(closingTag);
-
-  let result = Buffer.concat([openingTag, buffer, closingTag]);
+  let articleTags = [Buffer.from('<article>'), Buffer.from('</article>')];
+  let result = Buffer.concat([articleTags[0], buffer, articleTags[1]]);
 
   // console.log(result);
   // result.toString(); //?
 
-  
+  // Wrap each section title in an h2 tag
+  let h2Tags = [Buffer.from('<h2>'), Buffer.from('</h2>')];
+  let firsth2Index = result.indexOf(`How does pair programming work?`); //?
+  let secondh2Index = result.indexOf(`
+While`); //?
+
+  let firstPart = result.slice(0, firsth2Index); //?
+  let partToh2Wrap = result.slice(firsth2Index, secondh2Index); //?
+  let secondPart = result.slice(secondh2Index, result.length); //?
+
+  partToh2Wrap = Buffer.concat([h2Tags[0], partToh2Wrap, h2Tags[1]]); //?
+
+  result = Buffer.concat([firstPart, partToh2Wrap, secondPart]); //?
 
 
   return result;
 
 }
 
-// let testBuffer = Buffer.from('some cool text'); //?
+// let testBuffer = Buffer.from(`ls.
+
+// How does pair programming work?
+// While`); //?
+// testBuffer.length; //?
 // console.log(testBuffer); //?
-// addArticleTags(testBuffer); //?
+// let resultsBuf = insertHTMLTags(testBuffer); //?
+
+// resultsBuf.indexOf(`
+// cool
+// `); //?
+
+
+
+// let tester = `.
+
+// How does pair programming work?
+// W`;
+
+// let testBuf = Buffer.from(tester); //?
+// console.log(testBuf);
+
 
 
 
